@@ -12,7 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // 背景色をセット
+        self.view.backgroundColor = UIColor(named: "skyblue")
+        
+        // 背景の雲表示をテスト
+        let backImage = UIImage(named: "cloud")
+        let backImageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: view.frame.width, height: view.frame.height))
+        backImageView.image = backImage
+        backImageView.center = view.center
+        backImageView.contentMode = UIImageView.ContentMode.scaleAspectFill
+        self.view.addSubview(backImageView)
+
     }
 
 
