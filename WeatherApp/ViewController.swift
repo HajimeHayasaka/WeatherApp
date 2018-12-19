@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class ViewController: UIViewController {
     
@@ -61,6 +62,9 @@ class ViewController: UIViewController {
     // 設定ボタンを押された時の処理
     @objc func settingButtonClicked(sender: UIButton) {
         print("settingButtonClicked")
+        SCLAlertView().showInfo("Important info", subTitle: "You are great")
+
+        /*
         var weatherImage: UIImage? = nil
         let weatherImageView = UIImageView(frame: CGRect(x: 0, y: view.frame.height * 0.55, width: view.frame.width, height: 200))
         
@@ -85,6 +89,7 @@ class ViewController: UIViewController {
         weatherImageView.image = weatherImage
         weatherImageView.contentMode = UIImageView.ContentMode.scaleAspectFit
         self.view.addSubview(weatherImageView)
+        */
         
     }
 
