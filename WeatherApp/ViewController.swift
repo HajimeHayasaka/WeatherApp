@@ -8,16 +8,17 @@
 
 import UIKit
 import SCLAlertView
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController {
-
-    // test
 
     // テスト用カウンタ
     var count: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // 背景色をセット
         self.view.backgroundColor = UIColor(named: "skyblue")
@@ -52,8 +53,18 @@ class ViewController: UIViewController {
         temperatureLabel.font = UIFont.systemFont(ofSize: 45)
         self.view.addSubview(temperatureLabel)
 
-        
-        
+        //お天気APIから東京の天気を取得する
+        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=110010"
+        Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success:
+                let json: JSON = JSON(response.result.value ?? kill)
+                print(json)
+                self.showWeatherAlert(title: json["title"].stringValue, message: json["description"]["text"].stringValue)
+            case .failure(let error):
+                print(error)
+            }
+        }
         
         
     }
@@ -92,5 +103,18 @@ class ViewController: UIViewController {
         
     }
 
+    func showWeatherAlert(title: String, message: String) -> Void {
+        
+        // アラートを作成
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        // アラート表示
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 

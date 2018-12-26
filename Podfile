@@ -7,5 +7,7 @@ target 'WeatherApp' do
 
   # Pods for WeatherApp
   pod 'SCLAlertView'
+  pod 'Alamofire', '4.7.3'
+  pod 'SwiftyJSON', '~> 4.0'
 
 end
