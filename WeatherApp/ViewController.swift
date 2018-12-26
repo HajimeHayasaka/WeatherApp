@@ -50,9 +50,7 @@ class ViewController: UIViewController {
         temperatureLabel.textColor = UIColor(named: "textGray")
         temperatureLabel.font = UIFont.systemFont(ofSize: 45)
         self.view.addSubview(temperatureLabel)
-        
-        //
-        
+
         
         
         
