@@ -10,7 +10,8 @@ import UIKit
 import SCLAlertView
 
 class ViewController: UIViewController {
-    
+
+    // test
 
     // テスト用カウンタ
     var count: Int = 0
