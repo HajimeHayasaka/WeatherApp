@@ -9,5 +9,6 @@ target 'WeatherApp' do
   pod 'SCLAlertView'
   pod 'Alamofire', '4.7.3'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'SwiftLint'
 
 end
