@@ -72,17 +72,29 @@ class ViewController: UIViewController {
         self.view.addSubview(temperatureLabel)
 
         //お天気APIから東京の天気を取得する
-        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=110010"
+        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=040010"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json: JSON = JSON(response.result.value ?? kill)
+                print("JSON型のデータを表示")
                 print(json)
+                print(json["title"].stringValue)
+                print(json["description"]["text"].stringValue)
+                print()
+                print(json["location"]["prefecture"].stringValue)
+                print(json["forecasts"][0]["telop"].stringValue)
+                print(json["forecasts"][0]["temperature"]["max"]["celsius"].stringValue) // 最高気温
+                print(json["forecasts"][0]["temperature"]["min"]["celsius"].stringValue) // 最低気温
                 self.showWeatherAlert(title: json["title"].stringValue, message: json["description"]["text"].stringValue)
             case .failure(let error):
                 print(error)
             }
         }
+
+        // memo
+        // Alamofire はREST API のJSONデータを取得してくれる役割
+        // SwiftyJSON はJSONデータをJSON型としてswiftの配列として扱えるようにしてくれる役割
 
     }
 
@@ -101,7 +113,7 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default))
 
         // アラート表示
-        // self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
