@@ -13,9 +13,6 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
 
-    // テスト用カウンタ
-    // var count: Int = 0
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
