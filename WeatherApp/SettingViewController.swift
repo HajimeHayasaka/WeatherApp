@@ -50,7 +50,7 @@ class SettingViewController: UIViewController {
     @objc func tokyoButtonClicked(sender: UIButton) {
         print("tokyoButtonClicked")
         setCityId = "130010"
-        label.text = setCityId
+        label.text = "tokyo " + setCityId
     }
 
     // 埼玉設定ボタンを作成（テストコード）
@@ -69,7 +69,7 @@ class SettingViewController: UIViewController {
     @objc func saitamaButtonClicked(sender: UIButton) {
         print("saitamaButtonClicked")
         setCityId = "110010"
-        label.text = setCityId
+        label.text = "saitama " + setCityId
     }
 
     // 宮城設定ボタンを作成（テストコード）
@@ -88,7 +88,7 @@ class SettingViewController: UIViewController {
     @objc func miyagiButtonClicked(sender: UIButton) {
         print("miyagiButtonClicked")
         setCityId = "040010"
-        label.text = setCityId
+        label.text = "miyagi " + setCityId
     }
 
     // 地域設定ボタンを作成（テストコード）
