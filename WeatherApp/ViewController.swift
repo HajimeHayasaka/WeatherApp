@@ -31,9 +31,6 @@ class ViewController: UIViewController {
         // ユーザーデータの初期値をセット
         userDefaults.register(defaults: ["KEY_CITY_ID": "040010"])
 
-        // ナビゲーションバーを非表示に設定
-        self.navigationController!.setNavigationBarHidden(true, animated: false)
-
         self.view.backgroundColor = UIColor(named: "skyblue")
 
         // 背景用の雲を表示（その１）
@@ -82,6 +79,9 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("viewWillAppear")
+
+        // ナビゲーションバーを非表示に設定
+        self.navigationController!.setNavigationBarHidden(true, animated: false)
 
         // お天気情報を表示（地域と気温とイラストを表示）
         weatherInfoView(id: userDefaults.string(forKey: "KEY_CITY_ID")!)

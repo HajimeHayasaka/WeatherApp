@@ -33,6 +33,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController!.setNavigationBarHidden(false, animated: false)
+
         initTableList()
 
         settingTableView = UITableView()
@@ -43,6 +45,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         settingTableView.backgroundColor = UIColor(named: "skyblue")
         settingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(settingTableView)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController!.setNavigationBarHidden(false, animated: false)
     }
 
     // MARK: テーブルビューのセルの数を設定する
@@ -70,11 +77,41 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func initTableList() {
-        // 宮城県
+        // 北海道
         var data = Data()
+        data.area = "北海道"
+        data.setSubData(name: "稚内", id: "011000")
+        data.setSubData(name: "旭川", id: "012010")
+        data.setSubData(name: "留萌", id: "012020")
+        data.setSubData(name: "網走", id: "013010")
+        data.setSubData(name: "北見", id: "013020")
+        data.setSubData(name: "紋別", id: "013030")
+        data.setSubData(name: "根室", id: "014010")
+        data.setSubData(name: "釧路", id: "014020")
+        data.setSubData(name: "帯広", id: "014030")
+        data.setSubData(name: "室蘭", id: "015010")
+        data.setSubData(name: "浦河", id: "015020")
+        data.setSubData(name: "札幌", id: "016010")
+        data.setSubData(name: "岩見沢", id: "016020")
+        data.setSubData(name: "倶知安", id: "016030")
+        data.setSubData(name: "函館", id: "017010")
+        data.setSubData(name: "江差", id: "017020")
+        tableList.append(data)
+
+        // 宮城県
+        data = Data()
         data.area = "宮城県"
         data.setSubData(name: "仙台", id: "040010")
         data.setSubData(name: "白石", id: "040020")
+        tableList.append(data)
+
+        // 山形県
+        data = Data()
+        data.area = "山形県"
+        data.setSubData(name: "山形", id: "060010")
+        data.setSubData(name: "米沢", id: "060020")
+        data.setSubData(name: "酒田", id: "060030")
+        data.setSubData(name: "新庄", id: "060040")
         tableList.append(data)
 
         // 埼玉県
@@ -92,6 +129,18 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         data.setSubData(name: "大島", id: "130020")
         data.setSubData(name: "八丈島", id: "130030")
         data.setSubData(name: "父島", id: "130040")
+        tableList.append(data)
+
+        // 沖縄県
+        data = Data()
+        data.area = "沖縄県"
+        data.setSubData(name: "那覇", id: "471010")
+        data.setSubData(name: "名護", id: "471020")
+        data.setSubData(name: "久米島", id: "471030")
+        data.setSubData(name: "南大東", id: "472000")
+        data.setSubData(name: "宮古島", id: "473000")
+        data.setSubData(name: "石垣島", id: "474010")
+        data.setSubData(name: "与那国島", id: "474020")
         tableList.append(data)
     }
 }
