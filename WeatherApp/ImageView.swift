@@ -30,6 +30,7 @@ class ImageView: UIView {
         self.addSubview(imageView)
     }
 
+    // 画像＋ラベルで使いたい時用
     init(image: String, frameOfImage: CGRect, text: String, frameOfLabel: CGRect) {
         super.init(frame: frameOfImage)
 

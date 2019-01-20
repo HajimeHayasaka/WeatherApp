@@ -54,13 +54,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: テーブルビューのセルの数を設定する
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //テーブルビューのセルの数はmyItems配列の数とした
         return self.tableList.count
     }
 
     // MARK: テーブルビューのセルの中身を設定する
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //myItems配列の中身をテキストにして登録した
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
         cell.textLabel?.text = self.tableList[indexPath.row].area
         cell.contentView.backgroundColor = UIColor(named: "skyblue")

@@ -37,13 +37,11 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: テーブルビューのセルの数を設定する
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //テーブルビューのセルの数はmyItems配列の数とした
         return tableList.subList.count
     }
 
     // MARK: テーブルビューのセルの中身を設定する
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //myItems配列の中身をテキストにして登録した
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
         cell.textLabel?.text = tableList.subList[indexPath.row].name
         cell.contentView.backgroundColor = UIColor(named: "skyblue")
