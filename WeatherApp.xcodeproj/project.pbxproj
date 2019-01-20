@@ -10,6 +10,7 @@
 		2B2027A321ECB26800F4EF09 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2027A221ECB26800F4EF09 /* SettingViewController.swift */; };
 		2B2027D321F441A100F4EF09 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2027D221F441A100F4EF09 /* ImageView.swift */; };
 		2B2027D521F4471A00F4EF09 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2027D421F4471A00F4EF09 /* ButtonView.swift */; };
+		2B2027DB21F4C16500F4EF09 /* SettingSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2027DA21F4C16500F4EF09 /* SettingSubViewController.swift */; };
 		2B2A372A21C6BF0100DDA50F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2A372921C6BF0100DDA50F /* AppDelegate.swift */; };
 		2B2A372C21C6BF0100DDA50F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2A372B21C6BF0100DDA50F /* ViewController.swift */; };
 		2B2A372F21C6BF0100DDA50F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B2A372D21C6BF0100DDA50F /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		2B2027A221ECB26800F4EF09 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		2B2027D221F441A100F4EF09 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		2B2027D421F4471A00F4EF09 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		2B2027DA21F4C16500F4EF09 /* SettingSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSubViewController.swift; sourceTree = "<group>"; };
 		2B2A372621C6BF0100DDA50F /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B2A372921C6BF0100DDA50F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B2A372B21C6BF0100DDA50F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				2B2A372921C6BF0100DDA50F /* AppDelegate.swift */,
 				2B2A372B21C6BF0100DDA50F /* ViewController.swift */,
 				2B2027A221ECB26800F4EF09 /* SettingViewController.swift */,
+				2B2027DA21F4C16500F4EF09 /* SettingSubViewController.swift */,
 				2B2027D221F441A100F4EF09 /* ImageView.swift */,
 				2B2027D421F4471A00F4EF09 /* ButtonView.swift */,
 				2B2A373021C6BF0200DDA50F /* Assets.xcassets */,
@@ -242,6 +245,7 @@
 				2B2027D321F441A100F4EF09 /* ImageView.swift in Sources */,
 				2B2A372C21C6BF0100DDA50F /* ViewController.swift in Sources */,
 				2B2A372A21C6BF0100DDA50F /* AppDelegate.swift in Sources */,
+				2B2027DB21F4C16500F4EF09 /* SettingSubViewController.swift in Sources */,
 				2B2027A321ECB26800F4EF09 /* SettingViewController.swift in Sources */,
 				2B2027D521F4471A00F4EF09 /* ButtonView.swift in Sources */,
 			);

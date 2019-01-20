@@ -84,7 +84,7 @@ class ViewController: UIViewController {
         print("viewWillAppear")
 
         // お天気情報を表示（地域と気温とイラストを表示）
-        weatherInfoView(id: userDefaults.integer(forKey: "KEY_CITY_ID"))
+        weatherInfoView(id: userDefaults.string(forKey: "KEY_CITY_ID")!)
     }
 
     // MARK: 設定ボタン押下処理
@@ -103,9 +103,9 @@ class ViewController: UIViewController {
     }
 
     // MARK: お天気情報を表示（地域と気温とイラストを表示）
-    func weatherInfoView(id: Int) {
-        print("weatherInfoView: id " + "\(id)")
-        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=" + "\(id)"
+    func weatherInfoView(id: String) {
+        print("weatherInfoView: id " + id)
+        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=" + id
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
