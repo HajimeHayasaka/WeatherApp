@@ -24,12 +24,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         areaTableView = UITableView()
         areaTableView.delegate = self
         areaTableView.dataSource = self
-        
+
         areaTableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         areaTableView.backgroundColor = UIColor(named: "skyblue")
         areaTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(areaTableView)
-        
+
         /*
         self.view.backgroundColor = UIColor.white
         tokyoButton()
