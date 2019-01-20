@@ -8,22 +8,61 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var setCityId: String!
     var label: UILabel!
+    var areaTableView: UITableView!
+
+    var areaList: NSArray = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        areaList = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+                    "", "", "", "", "", "", "" ]
 
+        areaTableView = UITableView()
+        areaTableView.delegate = self
+        areaTableView.dataSource = self
+        
+        areaTableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        areaTableView.backgroundColor = UIColor(named: "skyblue")
+        areaTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.view.addSubview(areaTableView)
+        
+        /*
         self.view.backgroundColor = UIColor.white
-
         tokyoButton()
         saitamaButton()
         miyagiButton()
         setAreaView()
         setCityButton()
+        */
+        let array: [Dictionary<String, String>] = [["area": "東京都", "id": "234234234"],
+                                                   ["area": "長野県", "id": "234234234"],
+                                                   ["area": "埼玉県", "id": "23423423"]]
+        print (array[0]["area"]!)
+        print (array[0]["id"]!)
+    }
 
+    // MARK: テーブルビューのセルの数を設定する
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //テーブルビューのセルの数はmyItems配列の数とした
+        return self.areaList.count
+    }
+
+    // MARK: テーブルビューのセルの中身を設定する
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //myItems配列の中身をテキストにして登録した
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+        cell.textLabel?.text = self.areaList[indexPath.row] as? String
+        cell.contentView.backgroundColor = UIColor(named: "skyblue")
+        return cell
+    }
+
+    // MARK: テーブルビューのセルが押されたら呼ばれる
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.row)番のセルを選択しました！ ")
     }
 
     func setAreaView() {
@@ -113,7 +152,9 @@ class SettingViewController: UIViewController {
         let t = ViewController()
         t.userDefaults.set(setCityId, forKey: "KEY_CITY_ID")
         // self.navigationController?.popToRootViewController(animated: true)
-        // self.dismiss(animated: true, completion: nil) // dismiss は自分自身を消す。結果として裏のレイアウトU（前の画面）が表示される。★うまく動かなかった。なぜ？
+        // self.dismiss(animated: true, completion: nil) // dismiss は自分自身を消す。結果として裏のレイアウトU（前の画面）が表示される。
+        // ★うまく動かなかった。なぜ？
+        // push は　pop で戻る。　present は dismis で戻る。
     }
 
 }

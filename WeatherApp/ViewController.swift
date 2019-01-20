@@ -29,15 +29,17 @@ class ViewController: UIViewController {
 
         // お天気情報画面のレイアウトを描画
         weatherScreenView()
-
-        // お天気情報を表示（地域と気温とイラストを表示）
-        weatherInfoView(id: userDefaults.string(forKey: "KEY_CITY_ID")!)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("viewDidAppear")
-        weatherInfoView(id: userDefaults.string(forKey: "KEY_CITY_ID")!)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+        weatherInfoView(id: userDefaults.integer(forKey: "KEY_CITY_ID"))
+
+        let temperatureView = TemperatureView()
+        temperatureView.imageView.image = UIImage(named: "sunny")
+        temperatureView.frame = CGRect(x: 100, y: 300, width: 200, height: 200)
+        self.view.addSubview(temperatureView)
     }
 
     // MARK: 設定ボタン押下処理
@@ -83,36 +85,31 @@ class ViewController: UIViewController {
         settingButton.setBackgroundImage(settingButtonImage, for: UIControl.State.normal)
         self.view.addSubview(settingButton)
         settingButton.addTarget(self, action: #selector(settingButtonClicked(sender:)), for: UIControl.Event.touchUpInside)
+        // タイトルをやめてラベルで表示する
 
         // MARK: エリアの表示設定（都道府県）
         let areaNameBackImage = UIImage(named: "cloud_area")
         let areaNameBackImageView = UIImageView(frame: CGRect(x: view.frame.width * -0.3, y: view.frame.height * 0.12, width: 360, height: 140))
         areaNameBackImageView.image = areaNameBackImage
         self.view.addSubview(areaNameBackImageView)
-        areaNameLabel = UILabel(frame: CGRect(x: areaNameBackImageView.frame.origin.x + 20,
-                                              y: areaNameBackImageView.frame.origin.y,
-                                              width: areaNameBackImageView.frame.width,
-                                              height: areaNameBackImageView.frame.height))
+        areaNameLabel = UILabel(frame: CGRect(x: 135, y: 60, width: 140, height: 35))
         areaNameLabel.textColor = UIColor(named: "textGray")
         areaNameLabel.font = UIFont.systemFont(ofSize: 35)
         areaNameLabel.textAlignment = NSTextAlignment.center
         areaNameLabel.adjustsFontSizeToFitWidth = true
-        self.view.addSubview(areaNameLabel)
+        areaNameBackImageView.addSubview(areaNameLabel)
 
         // MARK: 気温の表示設定
         let temperatureBackImage = UIImage(named: "cloud_temp")
         let temperatureBackImageView = UIImageView(frame: CGRect(x: view.frame.width * 0.4, y: view.frame.height * 0.3, width: 300, height: 130))
         temperatureBackImageView.image = temperatureBackImage
         self.view.addSubview(temperatureBackImageView)
-        temperatureLabel = UILabel(frame: CGRect(x: temperatureBackImageView.frame.origin.x - 20,
-                                                 y: temperatureBackImageView.frame.origin.y,
-                                                 width: temperatureBackImageView.frame.width,
-                                                 height: temperatureBackImageView.frame.height))
+        temperatureLabel = UILabel(frame: CGRect(x: 60, y: 50, width: 150, height: 30))
         temperatureLabel.textColor = UIColor(named: "textGray")
         temperatureLabel.font = UIFont.systemFont(ofSize: 30)
         temperatureLabel.textAlignment = NSTextAlignment.center
         temperatureLabel.adjustsFontSizeToFitWidth = true
-        self.view.addSubview(temperatureLabel)
+        temperatureBackImageView.addSubview(temperatureLabel)
 
         // MARK: イラストの表示設定
         telopImageView = UIImageView(frame: CGRect(x: view.frame.width * 0.1, y: view.frame.height * 0.5, width: 300, height: 300))
@@ -133,16 +130,17 @@ class ViewController: UIViewController {
     }
 
     // MARK: お天気情報を表示（地域と気温とイラストを表示）
-    func weatherInfoView(id: String) {
-        print("weatherInfoView: id " + id)
-        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=" + id
+    func weatherInfoView(id: Int) {
+        print("weatherInfoView: id " + "\(id)")
+        let url: String = "http://weather.livedoor.com/forecast/webservice/json/v1?city=" + "\(id)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success:
                 let json: JSON = JSON(response.result.value ?? kill)
-                self.areaNameLabel.text = json["location"]["prefecture"].stringValue
-                self.temperatureLabel.text = json["forecasts"][self.date]["temperature"]["max"]["celsius"].stringValue + "℃/" +
-                                             json["forecasts"][self.date]["temperature"]["min"]["celsius"].stringValue + "℃"
+                self.areaNameLabel.text = json["location"]["prefecture"].stringValue + "/" + json["location"]["city"].stringValue
+                let temperatureJson = json["forecasts"][self.date]["temperature"]
+                self.temperatureLabel.text = temperatureJson["max"]["celsius"].stringValue + "℃/" +
+                                             temperatureJson["min"]["celsius"].stringValue + "℃"
                 switch json["forecasts"][self.date]["telop"].stringValue.prefix(1) {
                 case "晴":
                     self.telopImageView.image = UIImage(named: "sunny")
@@ -153,10 +151,8 @@ class ViewController: UIViewController {
                 default:
                     break
                 }
-
                 self.alertTitle = json["title"].stringValue
                 self.alertMessage = json["description"]["text"].stringValue
-
                 print(json)
                 print("weatherInfoView: JSON response [success]")
                 print("weatherInfoView: pre " + self.areaNameLabel.text! + ", temp " + self.temperatureLabel.text! + ", telop " + json["forecasts"][self.date]["telop"].stringValue.prefix(1))
@@ -166,24 +162,4 @@ class ViewController: UIViewController {
         }
     }
 }
-
-// ---------------------------------------------------------------------------
-// memo
-// ---------------------------------------------------------------------------
-// Alamofire はREST API のJSONデータを取得してくれる役割
-// Alamofire は非同期処理
-// SwiftyJSON はJSONデータをJSON型としてswiftの配列として扱えるようにしてくれる役割
-
-/*
- print("JSON型のデータを表示")
- 
- print(testJson)
- print(testJson["title"].stringValue)
- print(testJson["detail"]["text"].stringValue)
- print()
- print(testJson["location"]["prefecture"].stringValue)
- print(testJson["forecasts"][self.date]["telop"].stringValue)
- print(testJson["forecasts"][self.date]["temperature"]["max"]["celsius"].stringValue) // 最高気温
- print(testJson["forecasts"][self.date]["temperature"]["min"]["celsius"].stringValue) // 最低気温
- */
 
