@@ -54,10 +54,13 @@ class ImageView: UIView {
 
     // SubView, Layer を更新する場合に使用するメソッド
     // Question:super.layoutSubview()は不要なのか？呼ばなくても大丈夫な理由。
+    // 特殊なメソッド。中身を確認してみる。
     override func layoutSubviews() {
         imageView.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
         if labelFlag { label.frame = labelFrame }
     }
+
+    // 継承をうまく利用する。
 
     func setDefaultLabelText() { label.text = defaultLabelText }
 }

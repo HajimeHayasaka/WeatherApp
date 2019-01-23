@@ -10,7 +10,7 @@ import UIKit
 
 class Data {
     var area: String!
-    var subList: Array<SubArea> = []
+    var subList: [SubArea] = []
 
     struct SubArea {
         var name: String!
@@ -28,7 +28,7 @@ class Data {
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var settingTableView: UITableView!
-    var tableList: Array<Data> = []
+    var tableList: [Data] = []
     var backImageCloud: ImageView!
     var closeButton: ButtonView!
 
@@ -77,6 +77,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: 閉じるボタン押下処理
     @objc func closeButtonClicked(sender: UIButton) {
         print("closeButtonClicked")
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.fade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -98,6 +103,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)番のセルを選択しました！ ")
         tableView.deselectRow(at: indexPath, animated: true)
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.fade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
         let thirdVC: SettingSubViewController = SettingSubViewController(data: tableList[indexPath.row])
         self.navigationController?.pushViewController(thirdVC, animated: true)
 

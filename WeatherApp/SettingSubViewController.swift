@@ -11,13 +11,13 @@ import UIKit
 class SettingSubViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var subTableView: UITableView!
-    let tableList: Data!
+    var tableList: Data!
     var backImageCloud: ImageView!
     var backButton: ButtonView!
 
     init(data: Data) {
-        tableList = data
         super.init(nibName: nil, bundle: nil)
+        tableList = data
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -67,6 +67,11 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: 閉じるボタン押下処理
     @objc func backButtonClicked(sender: UIButton) {
         print("backButtonClicked")
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.fade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -88,6 +93,11 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)番のセルを選択しました！ ")
         tableView.deselectRow(at: indexPath, animated: true)
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.fade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
         let firstVC = ViewController()
         firstVC.userDefaults.set(tableList.subList[indexPath.row].id, forKey: "KEY_CITY_ID")
         print(tableList.subList[indexPath.row].name)

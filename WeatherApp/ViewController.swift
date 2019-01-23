@@ -20,7 +20,6 @@ class ViewController: UIViewController {
     var temperatureView: ImageView!
     var areaNameView: ImageView!
     var telopImageView: ImageView!
-    var backImageCloud: ImageView!
     var settingButton: ButtonView!
     var detailButton: ButtonView!
 
@@ -36,7 +35,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = UIColor(named: "skyblue")
 
         // 背景用の雲を表示
-        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.6, width: 400, height: 160))
+        var backImageCloud: ImageView! = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.6, width: 400, height: 160))
         backImageCloud.imageView.image = UIImage(named: "cloud_background")
         self.view.addSubview(backImageCloud)
 
@@ -89,6 +88,11 @@ class ViewController: UIViewController {
     @objc func settingButtonClicked(sender: UIButton) {
         print("settingButtonClicked")
         let secondVC: SettingViewController = SettingViewController()
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.fade
+        self.navigationController?.view.layer.add(transition, forKey: nil)
         self.navigationController?.pushViewController(secondVC, animated: true)
     }
 
@@ -110,8 +114,9 @@ class ViewController: UIViewController {
                 let json: JSON = JSON(response.result.value ?? kill)
                 self.areaNameView.label.text = json["location"]["prefecture"].stringValue + "/" + json["location"]["city"].stringValue
                 var temperatureJson = json["forecasts"][self.date]["temperature"]
-                let tempMax = temperatureJson["max"]["celsius"].stringValue == "" ? "--" : temperatureJson["max"]["celsius"].stringValue
-                let tempMin = temperatureJson["min"]["celsius"].stringValue == "" ? "--" : temperatureJson["min"]["celsius"].stringValue
+                let tempMax = temperatureJson["max"]["celsius"].stringValue.isEmpty ? "--" : temperatureJson["max"]["celsius"].stringValue
+                let tempMin = temperatureJson["min"]["celsius"].stringValue.isEmpty ? "--" : temperatureJson["min"]["celsius"].stringValue
+                // isEmpty はnil or から文字の時にtrueを返す。
                 self.temperatureView.label.text = tempMax + "℃/" + tempMin + "℃"
 
                 switch json["forecasts"][self.date]["telop"].stringValue.prefix(1) {
