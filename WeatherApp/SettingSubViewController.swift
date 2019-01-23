@@ -12,6 +12,8 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
 
     var subTableView: UITableView!
     let tableList: Data!
+    var backImageCloud: ImageView!
+    var backButton: ButtonView!
 
     init(data: Data) {
         tableList = data
@@ -25,14 +27,47 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.backgroundColor = UIColor(named: "skyblue")
+
+        // 背景用の雲を表示
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * 0.5, y: view.frame.height * 0.2, width: 380, height: 140))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.4, width: 380, height: 140))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * 0.4, y: view.frame.height * 0.6, width: 340, height: 120))
+        backImageCloud.imageView.image = UIImage(named: "cloud_temp")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.2, y: view.frame.height * 0.8, width: 300, height: 120))
+        backImageCloud.imageView.image = UIImage(named: "cloud_temp")
+        self.view.addSubview(backImageCloud)
+
+        // 閉じるボタン表示
+        backButton = ButtonView(image: "cloud_setting", name: "戻る",
+                                frame: CGRect(x: view.frame.width * 0.05, y: view.frame.height * 0.05, width: 200, height: 80))
+        backButton.labelFrame = CGRect(x: 65, y: 30, width: 50, height: 25)
+        self.view.addSubview(backButton)
+        backButton.button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControl.Event.touchUpInside)
+
+        // テーブルビュー表示
         subTableView = UITableView()
         subTableView.delegate = self
         subTableView.dataSource = self
 
-        subTableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        subTableView.backgroundColor = UIColor(named: "skyblue")
+        subTableView.frame = CGRect(x: 0, y: 120, width: view.frame.width, height: view.frame.height - 120)
+        subTableView.backgroundColor = UIColor.clear
         subTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(subTableView)
+    }
+
+    // MARK: 閉じるボタン押下処理
+    @objc func backButtonClicked(sender: UIButton) {
+        print("backButtonClicked")
+        self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: テーブルビューのセルの数を設定する
@@ -44,7 +79,8 @@ class SettingSubViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
         cell.textLabel?.text = tableList.subList[indexPath.row].name
-        cell.contentView.backgroundColor = UIColor(named: "skyblue")
+        cell.textLabel?.textColor = UIColor(named: "textGray")
+        cell.backgroundColor = UIColor.clear
         return cell
     }
 

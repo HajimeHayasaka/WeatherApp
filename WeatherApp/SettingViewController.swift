@@ -29,27 +29,55 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     var settingTableView: UITableView!
     var tableList: Array<Data> = []
+    var backImageCloud: ImageView!
+    var closeButton: ButtonView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController!.setNavigationBarHidden(false, animated: false)
-
         initTableList()
 
+        self.view.backgroundColor = UIColor(named: "skyblue")
+
+        // 背景用の雲を表示
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * 0.5, y: view.frame.height * 0.2, width: 380, height: 140))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.4, width: 380, height: 140))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * 0.4, y: view.frame.height * 0.6, width: 340, height: 120))
+        backImageCloud.imageView.image = UIImage(named: "cloud_temp")
+        self.view.addSubview(backImageCloud)
+
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.2, y: view.frame.height * 0.8, width: 300, height: 120))
+        backImageCloud.imageView.image = UIImage(named: "cloud_temp")
+        self.view.addSubview(backImageCloud)
+
+        // 閉じるボタン表示
+        closeButton = ButtonView(image: "cloud_setting", name: "閉じる",
+                                   frame: CGRect(x: view.frame.width * 0.05, y: view.frame.height * 0.05, width: 200, height: 80))
+        closeButton.labelFrame = CGRect(x: 55, y: 30, width: 70, height: 25)
+        self.view.addSubview(closeButton)
+        closeButton.button.addTarget(self, action: #selector(closeButtonClicked(sender:)), for: UIControl.Event.touchUpInside)
+
+        // テーブルビュー表示
         settingTableView = UITableView()
         settingTableView.delegate = self
         settingTableView.dataSource = self
 
-        settingTableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        settingTableView.backgroundColor = UIColor(named: "skyblue")
+        settingTableView.frame = CGRect(x: 0, y: 120, width: view.frame.width, height: view.frame.height - 120)
+        settingTableView.backgroundColor = UIColor.clear
         settingTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(settingTableView)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController!.setNavigationBarHidden(false, animated: false)
+    // MARK: 閉じるボタン押下処理
+    @objc func closeButtonClicked(sender: UIButton) {
+        print("closeButtonClicked")
+        self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: テーブルビューのセルの数を設定する
@@ -61,7 +89,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
         cell.textLabel?.text = self.tableList[indexPath.row].area
-        cell.contentView.backgroundColor = UIColor(named: "skyblue")
+        cell.textLabel?.textColor = UIColor(named: "textGray")
+        cell.backgroundColor = UIColor.clear
         return cell
     }
 
@@ -96,11 +125,34 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         data.setSubData(name: "江差", id: "017020")
         tableList.append(data)
 
+        // 青森県
+        data = Data()
+        data.area = "青森県"
+        data.setSubData(name: "青森", id: "020010")
+        data.setSubData(name: "むつ", id: "020020")
+        data.setSubData(name: "八戸", id: "020030")
+        tableList.append(data)
+
+        // 岩手県
+        data = Data()
+        data.area = "岩手県"
+        data.setSubData(name: "盛岡", id: "030010")
+        data.setSubData(name: "宮古", id: "030020")
+        data.setSubData(name: "大船渡", id: "030030")
+        tableList.append(data)
+
         // 宮城県
         data = Data()
         data.area = "宮城県"
         data.setSubData(name: "仙台", id: "040010")
         data.setSubData(name: "白石", id: "040020")
+        tableList.append(data)
+
+        // 秋田県
+        data = Data()
+        data.area = "秋田県"
+        data.setSubData(name: "秋田", id: "050010")
+        data.setSubData(name: "横手", id: "050020")
         tableList.append(data)
 
         // 山形県
@@ -112,12 +164,49 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         data.setSubData(name: "新庄", id: "060040")
         tableList.append(data)
 
+        // 福島県
+        data = Data()
+        data.area = "福島県"
+        data.setSubData(name: "福島", id: "070010")
+        data.setSubData(name: "小名浜", id: "070020")
+        data.setSubData(name: "若松", id: "070030")
+        tableList.append(data)
+
+        // 茨城県
+        data = Data()
+        data.area = "茨城県"
+        data.setSubData(name: "水戸", id: "080010")
+        data.setSubData(name: "土浦", id: "080020")
+        tableList.append(data)
+
+        // 栃木県
+        data = Data()
+        data.area = "栃木県"
+        data.setSubData(name: "宇都宮", id: "090010")
+        data.setSubData(name: "大田原", id: "090020")
+        tableList.append(data)
+
+        // 群馬県
+        data = Data()
+        data.area = "群馬県"
+        data.setSubData(name: "前橋", id: "100010")
+        data.setSubData(name: "みなかみ", id: "100020")
+        tableList.append(data)
+
         // 埼玉県
         data = Data()
         data.area = "埼玉県"
         data.setSubData(name: "さいたま", id: "110010")
         data.setSubData(name: "熊谷", id: "110020")
         data.setSubData(name: "秩父", id: "110030")
+        tableList.append(data)
+
+        // 千葉県
+        data = Data()
+        data.area = "千葉県"
+        data.setSubData(name: "千葉", id: "120010")
+        data.setSubData(name: "銚子", id: "120020")
+        data.setSubData(name: "館山", id: "120020")
         tableList.append(data)
 
         // 東京都
@@ -127,6 +216,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         data.setSubData(name: "大島", id: "130020")
         data.setSubData(name: "八丈島", id: "130030")
         data.setSubData(name: "父島", id: "130040")
+        tableList.append(data)
+
+        // 神奈川県
+        data = Data()
+        data.area = "神奈川県"
+        data.setSubData(name: "横浜", id: "140010")
+        data.setSubData(name: "小田原", id: "140020")
+        tableList.append(data)
+
+        // 新潟県
+        data = Data()
+        data.area = "新潟県"
+        data.setSubData(name: "新潟", id: "150010")
+        data.setSubData(name: "長岡", id: "150020")
+        data.setSubData(name: "高田", id: "150030")
+        data.setSubData(name: "相川", id: "150040")
         tableList.append(data)
 
         // 沖縄県

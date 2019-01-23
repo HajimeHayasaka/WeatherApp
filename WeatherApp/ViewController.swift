@@ -13,15 +13,14 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
 
-    let date: Int = 0                       // 表示する日（今日:0, 明日:1, 明後日:2）
+    let date: Int = 0                      // 表示する日（今日:0, 明日:1, 明後日:2）
     let userDefaults: UserDefaults = UserDefaults.standard
     var alertTitle: String!
     var alertMessage: String!
     var temperatureView: ImageView!
     var areaNameView: ImageView!
     var telopImageView: ImageView!
-    var backImageCloud_1: ImageView!
-    var backImageCloud_2: ImageView!
+    var backImageCloud: ImageView!
     var settingButton: ButtonView!
     var detailButton: ButtonView!
 
@@ -31,17 +30,19 @@ class ViewController: UIViewController {
         // ユーザーデータの初期値をセット
         userDefaults.register(defaults: ["KEY_CITY_ID": "040010"])
 
+        // ナビゲーションバーを非表示に設定
+        self.navigationController!.setNavigationBarHidden(true, animated: false)
+
         self.view.backgroundColor = UIColor(named: "skyblue")
 
-        // 背景用の雲を表示（その１）
-        backImageCloud_1 = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.6, width: 400, height: 160))
-        backImageCloud_1.imageView.image = UIImage(named: "cloud_background")
-        self.view.addSubview(backImageCloud_1)
+        // 背景用の雲を表示
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * -0.4, y: view.frame.height * 0.6, width: 400, height: 160))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
 
-        // 背景用の雲を表示（その２）
-        backImageCloud_2 = ImageView(frame: CGRect(x: view.frame.width * 0.5, y: view.frame.height * 0.8, width: 270, height: 110))
-        backImageCloud_2.imageView.image = UIImage(named: "cloud_background")
-        self.view.addSubview(backImageCloud_2)
+        backImageCloud = ImageView(frame: CGRect(x: view.frame.width * 0.5, y: view.frame.height * 0.8, width: 270, height: 110))
+        backImageCloud.imageView.image = UIImage(named: "cloud_background")
+        self.view.addSubview(backImageCloud)
 
         // 設定ボタン表示
         settingButton = ButtonView(image: "cloud_setting", name: "設定",
@@ -80,9 +81,6 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         print("viewWillAppear")
 
-        // ナビゲーションバーを非表示に設定
-        self.navigationController!.setNavigationBarHidden(true, animated: false)
-
         // お天気情報を表示（地域と気温とイラストを表示）
         weatherInfoView(id: userDefaults.string(forKey: "KEY_CITY_ID")!)
     }
@@ -112,8 +110,10 @@ class ViewController: UIViewController {
                 let json: JSON = JSON(response.result.value ?? kill)
                 self.areaNameView.label.text = json["location"]["prefecture"].stringValue + "/" + json["location"]["city"].stringValue
                 var temperatureJson = json["forecasts"][self.date]["temperature"]
-                self.temperatureView.label.text = temperatureJson["max"]["celsius"].stringValue + "℃/" +
-                                                  temperatureJson["min"]["celsius"].stringValue + "℃"
+                let tempMax = temperatureJson["max"]["celsius"].stringValue == "" ? "--" : temperatureJson["max"]["celsius"].stringValue
+                let tempMin = temperatureJson["min"]["celsius"].stringValue == "" ? "--" : temperatureJson["min"]["celsius"].stringValue
+                self.temperatureView.label.text = tempMax + "℃/" + tempMin + "℃"
+
                 switch json["forecasts"][self.date]["telop"].stringValue.prefix(1) {
                 case "晴":
                     self.telopImageView.imageView.image = UIImage(named: "sunny")
@@ -126,9 +126,11 @@ class ViewController: UIViewController {
                 }
                 self.alertTitle = json["title"].stringValue
                 self.alertMessage = json["description"]["text"].stringValue
-                print(json)
-                print("weatherInfoView: JSON response [success]")
-                print("weatherInfoView: pre " + self.areaNameView.label.text! + ", temp " + self.temperatureView.label.text! + ", telop " + json["forecasts"][self.date]["telop"].stringValue.prefix(1))
+
+                // 取得したJSONデータの情報を表示（デバッグ用）
+                //print(json)
+                //print("weatherInfoView: JSON response [success]")
+                //print("weatherInfoView: pre " + self.areaNameView.label.text! + ", temp " + self.temperatureView.label.text! + ", telop " + json["forecasts"][self.date]["telop"].stringValue.prefix(1))
             case .failure(let error):
                 print(error)
             }
